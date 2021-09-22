@@ -1,3 +1,5 @@
+import api from '../services/api'
+
 import localizaempresas from '../assets/images/localizaempresas.svg';
 
 export function Home() {
@@ -11,10 +13,10 @@ export function Home() {
           </div>
             <div id="search-row" className="p-16 justify-center inline-flex">
               <input id="txtCNPJ" type="text" data-mask="00.000.000/0000-00" placeholder="CNPJ..." className="rounded-lg 
-                          outline-none text-base text-xl border-3 border-green-600 p-2 px-4 
+                          outline-none text-xl border-3 border-green-600 p-2 px-4 
                             pr-32 h-16 placeholder-gray-400 form-control">            
               </input>
-              <button type='submit' className="ml-8 px-8 text-2xl rounded-full text-white bg-green-600">
+              <button type="submit" className="ml-8 px-8 text-2xl rounded-full text-white bg-green-600">
                 LOCALIZAR
               </button>
             </div>
