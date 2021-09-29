@@ -1,8 +1,28 @@
-import api from '../services/api'
+import { FormEvent, useState } from 'react'
+import axios from 'axios'
 
 import localizaempresas from '../assets/images/localizaempresas.svg';
 
 export function Home() {
+
+  const [cnpj, setNewCnpj] = useState('')
+
+  async function searchCompanyCNPJ(event: FormEvent) {
+    event.preventDefault();
+    
+    axios
+    .get("https://www.receitaws.com.br/v1/cnpj/"+cnpj)
+    .then(response => {
+      //Checar se ja existe o cnpj no storage
+      //se existir, deve atualizar
+      // se nao existir, deve inserir
+      console.log(response.data.nome)
+    })
+    .catch(error => {
+        console.log(JSON.stringify(error))
+    })
+  }
+
   return(
     <div className="h-full w-full">
       <div className="flex flex-col">
@@ -11,14 +31,20 @@ export function Home() {
               <i className="fas fa-building fa-4x pr-8"></i>
               <h1 className="text-6xl font-family-Roboto">Localizador de Empresas</h1>
           </div>
-            <div id="search-row" className="p-16 justify-center inline-flex">
-              <input id="txtCNPJ" type="text" data-mask="00.000.000/0000-00" placeholder="CNPJ..." className="rounded-lg 
-                          outline-none text-xl border-3 border-green-600 p-2 px-4 
-                            pr-32 h-16 placeholder-gray-400 form-control">            
-              </input>
-              <button type="submit" className="ml-8 px-8 text-2xl rounded-full text-white bg-green-600">
-                LOCALIZAR
-              </button>
+            <div id="search-row" className="p-16 justify-center inline-flex cnpj">
+              <form onSubmit={searchCompanyCNPJ}>
+                <input
+                    type="text"  
+                    placeholder="CNPJ..." 
+                    className="rounded-lg outline-none text-xl border-3 border-green-600 p-2 px-4 
+                    pr-32 h-16 placeholder-gray-400 form-control"
+                    onChange={event => setNewCnpj(event.target.value)}                     
+                    value={cnpj}> 
+                </input>
+                <button type="submit" className="ml-8 px-8 text-2xl rounded-full text-white bg-green-600">
+                  LOCALIZAR
+                </button>
+              </form>  
             </div>
         </div>
         <div id="container-body" className="h-screen bg-gradient-to-r from-green-600 to-green-900">
