@@ -9,19 +9,47 @@ export function Home() {
 
   async function searchCompanyCNPJ(event: FormEvent) {
     event.preventDefault();
+
+    let strCnpj = localStorage.getItem('cnpjStorage')
+    let cnpjStorage: any[] = []
+    let existsInLocalStorage = cnpjStorage.findIndex(cnpjStorage => cnpjStorage.JSON.account === strCnpj);
+    let fantasia: string;
+
+    if (strCnpj) 
+    cnpjStorage = JSON.parse(strCnpj)
     
     axios
-    .get("https://www.receitaws.com.br/v1/cnpj/"+cnpj)
+    .get("https://cors.bridged.cc/https://receitaws.com.br/v1/cnpj/"+cnpj)
     .then(response => {
       //Checar se ja existe o cnpj no storage
       //se existir, deve atualizar
       // se nao existir, deve inserir
-      console.log(response.data.nome)
+
+      //Informações que preciso pegar da API
+      // fantasia,
+      // cnpj,
+      // logradouro,
+      // numero,
+      // bairro,
+      // município
+      cnpjStorage.push(response.data)
+      console.log(cnpjStorage)
+      localStorage.setItem('cnpjStorage', JSON.stringify(cnpjStorage))
+
+      fantasia = JSON.stringify(localStorage.getItem('fantasia'))
+      console.log(fantasia)
+      
+        
+      
     })
     .catch(error => {
         console.log(JSON.stringify(error))
     })
+
+    
   }
+
+  
 
   return(
     <div className="h-full w-full">
@@ -57,4 +85,8 @@ export function Home() {
       </div>      
     </div>
   )
+}
+
+function fantasia(arg0: string, fantasia: any) {
+  throw new Error('Function not implemented.');
 }
